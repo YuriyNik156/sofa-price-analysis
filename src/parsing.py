@@ -3,10 +3,11 @@ from bs4 import BeautifulSoup
 import csv
 import time
 import random
+import os
 
 
 BASE_URL = "https://www.divan.ru/category/divany-i-kresla"
-OUTPUT_FILE = "../data/raw_products.csv"
+OUTPUT_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "raw_products.csv")
 
 
 def fetch_page(url: str) -> str | None:
@@ -39,7 +40,7 @@ def parse_products(html: str) -> list[dict]:
 
         try:
             link = item.find("a", class_="ui-GPFV8 qUioe")["href"]
-            link = "https://www.divan.ru/category/divany-i-kresla" + link
+            link = "https://www.divan.ru" + link
         except (AttributeError, TypeError):
             link = None
 
@@ -54,6 +55,37 @@ def parse_products(html: str) -> list[dict]:
 
     return products
 
+
+def save_to_csv(products: list[dict], filename: str):
+    """Сохранение списка товаров в CSV"""
+    with open(filename, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=["name", "price", "link"])
+        writer.writeheader()
+        writer.writerows(products)
+    print(f"[OK] Сохранено {len(products)} товаров в {filename}")
+
+
+def main():
+    all_products = []
+    for page in range(1, 6):
+        url = f"{BASE_URL}?page={page}"
+        print(f"[INFO] Загружаю {url}")
+        html = fetch_page(url)
+        if not html:
+            continue
+
+        products = parse_products(html)
+        all_products.extend(products)
+
+        if len(all_products) >= 100:
+            break
+
+        time.sleep(random.uniform(1, 3))
+
+    save_to_csv(all_products[:100], OUTPUT_FILE)
+
+if __name__ == "__main__":
+    main()
 
 
 
