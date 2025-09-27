@@ -1,117 +1,74 @@
-import requests
-from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 import csv
-import time
-import random
-import os
 
-
+OUTPUT_FILE = "../data/raw_products.csv"
 BASE_URL = "https://www.divan.ru/category/divany-i-kresla"
-OUTPUT_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "raw_products.csv")
 
 
-def fetch_page(url: str) -> str | None:
-    """Загрузка HTML-страницы и возврат текста или None при ошибке"""
-    try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        return response.text
-    except requests.RequestException as e:
-        print(f"[Ошибка] Не удалось загрузить страницу {url}: {e}")
-        return None
-
-
-def parse_products(html: str) -> list[dict]:
-    """Парсинг товаров с одной категории divany-i-kresla"""
-    soup = BeautifulSoup(html, "html.parser")
+def parse_products(driver):
     products = []
-
-    items = soup.find_all("div", class_="lsooF")
+    items = driver.find_elements(By.CSS_SELECTOR, "a.ProductName")
     for item in items:
         try:
-            name = item.find("span", class_="pY3d2").get_text(strip=True)
-        except AttributeError:
-            name = None
-
-        try:
-            price = item.find("span", class_="ui-LD-ZU KIkOH").get_text(strip=True)
-        except AttributeError:
-            price = None
-
-        try:
-            link = item.find("a", class_="ui-GPFV8 qUioe")["href"]
-            link = "https://www.divan.ru" + link
-        except (AttributeError, TypeError):
-            link = None
-
-        if name and price and link:
-            products.append({
-                "name": name,
-                "price": price,
-                "link": link
-            })
-        else:
-            print("[Предупреждение] Пропущен товар из-за неполных данных.")
-
+            name = item.find_element(By.CSS_SELECTOR, "span[itemprop='name']").text.strip()
+            price = item.find_element(By.XPATH, "../../..//span[@data-testid='price']").text.strip()
+            link = item.get_attribute("href")
+            products.append({"name": name, "price": price, "link": link})
+        except Exception:
+            print("[Предупреждение] Пропущен товар (неполные данные)")
     return products
 
 
-def save_to_csv(products: list[dict], filename: str):
-    """Сохранение списка товаров в CSV"""
-    with open(filename, "w", newline="", encoding="utf-8") as f:
+def main():
+    options = Options()
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--headless=new")  # если хочешь видеть браузер, закомментируй
+
+    driver = webdriver.Chrome(
+        service=Service(ChromeDriverManager().install()),
+        options=options
+    )
+
+    all_products = []
+
+    try:
+        for page in range(1, 6):
+            url = f"{BASE_URL}?page={page}"
+            print(f"[INFO] Загружаю {url}")
+            driver.get(url)
+
+            try:
+                WebDriverWait(driver, 10).until(
+                    EC.presence_of_all_elements_located((By.CSS_SELECTOR, "a.ProductName")
+                )
+            except Exception:
+                print("[Ошибка] Карточки диванов не найдены на странице")
+                continue
+
+            products = parse_products(driver)
+            all_products.extend(products)
+
+            if len(all_products) >= 100:
+                break
+
+    finally:
+        driver.quit()  # теперь сессия всегда корректно закрывается
+
+    with open(OUTPUT_FILE, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=["name", "price", "link"])
         writer.writeheader()
-        writer.writerows(products)
-    print(f"[OK] Сохранено {len(products)} товаров в {filename}")
+        writer.writerows(all_products[:100])
 
+    print(f"[OK] Сохранено {len(all_products[:100])} товаров в {OUTPUT_FILE}")
 
-def main():
-    all_products = []
-    for page in range(1, 6):
-        url = f"{BASE_URL}?page={page}"
-        print(f"[INFO] Загружаю {url}")
-        html = fetch_page(url)
-        if not html:
-            continue
-
-        products = parse_products(html)
-        all_products.extend(products)
-
-        if len(all_products) >= 100:
-            break
-
-        time.sleep(random.uniform(1, 3))
-
-    save_to_csv(all_products[:100], OUTPUT_FILE)
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-# Запускаем браузер
-driver = webdriver.Chrome()
-
-# Открываем страницу с диванами
-url = "https://www.divan.ru/category/divany-i-kresla"
-driver.get(url)
-time.sleep(5)
-
-price_text = driver.find_elements(By.CLASS_NAME, "ui-LD-ZU")
-
-# Создание и открытие CSV-файла для записи
-with open("products.csv", mode="w", encoding="utf-8", newline="") as file:
-    writer = csv.writer(file)
-    writer.writerow(["Цены на диваны"])  # Указываем заголовок столбца
-
-    # Запись данных в файл
-    for price in price_text:
-        writer.writerow([price.text])
-
-print("Данные успешно сохранены в файл products.csv")
-
-# Закрытие браузера
-driver.quit()
