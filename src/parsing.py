@@ -48,7 +48,7 @@ def main():
             try:
                 WebDriverWait(driver, 10).until(
                     EC.presence_of_all_elements_located((By.CSS_SELECTOR, "a.ProductName")
-                )
+                ))
             except Exception:
                 print("[Ошибка] Карточки диванов не найдены на странице")
                 continue
