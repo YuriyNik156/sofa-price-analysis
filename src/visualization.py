@@ -30,7 +30,7 @@ def main():
     # --- Boxplot ---
     plt.figure(figsize=(6, 4))
     sns.boxplot(x=df["price"])
-    plt.title("Boxplot цен на диваны (выбросы)")
+    plt.title("Boxplot цен на товары мебели (выбросы)")
     plt.xlabel("Цена, ₽")
     plt.tight_layout()
     plt.savefig(os.path.join(IMG_DIR, "boxplot_prices.png"))
@@ -51,4 +51,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
