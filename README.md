@@ -104,6 +104,21 @@
 
 ## Структура проекта
 
+sofa-price-analysis/
+├── data/                     
+│   ├── raw_products.csv      # сохранение парсинга данных
+│   └── cleaned_products.csv  # сохранение очищенных данных
+├── notebooks/
+│   └── analysis.ipynb        # интерпретация графиков
+├── src/
+│   ├── parsing.py            # парсинг данных
+│   ├── cleaning.py           # очистка данных
+│   ├── eda.py                # базовая статистика
+│   └── visualization.py      # визуализация графиков
+├── screenshots/              # скриншоты графиков
+├── requirements.txt          # зависимости
+└── README.md                 # документация
+
 ---
 
 ## План разработки
