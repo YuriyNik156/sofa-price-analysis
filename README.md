@@ -39,6 +39,14 @@
 
 ## Архитектура проекта
 
+* **Парсер** — Selenium (Python 3.13).
+
+* **Обработка данных** — Pandas и NumPy: очистка данных, преобразование типов, базовый EDA.
+
+* **Визуализация** — Matplotlib и Seaborn: построение графиков для анализа цен.
+
+* **Логирование** — встроенный logging для отслеживания работы скриптов.
+
 ---
 
 ## Установка и запуск
@@ -106,18 +114,23 @@
 
 sofa-price-analysis/
 ├── data/                     
-│   ├── raw_products.csv      # сохранение парсинга данных
-│   └── cleaned_products.csv  # сохранение очищенных данных
+│   ├── raw_products.csv                         # сохранение парсинга данных
+│   └── cleaned_products.csv                     # сохранение очищенных данных
 ├── notebooks/
-│   └── analysis.ipynb        # интерпретация графиков
+│   └── analysis.ipynb                           # интерпретация графиков
 ├── src/
-│   ├── parsing.py            # парсинг данных
-│   ├── cleaning.py           # очистка данных
-│   ├── eda.py                # базовая статистика
-│   └── visualization.py      # визуализация графиков
-├── screenshots/              # скриншоты графиков
-├── requirements.txt          # зависимости
-└── README.md                 # документация
+│   ├── parsing.py                               # парсинг данных
+│   ├── cleaning.py                              # очистка данных
+│   ├── eda.py                                   # базовая статистика
+│   └── visualization.py                         # визуализация графиков
+├── reports
+│   └── figures
+│       ├── boxplot_prices.png                   # boxplot
+│       ├── histogram_prices.png                 # гистограмма цен
+│       └── scatter_name_length_vs_price.png     # KDE-график
+├── screenshots/                                 # скриншоты графиков
+├── requirements.txt                             # зависимости
+└── README.md                                    # документация
 
 ---
 
