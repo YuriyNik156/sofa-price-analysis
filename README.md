@@ -3,7 +3,7 @@
 **Описание**
 
 Учебный проект на Python, который охватывает полный цикл работы с данными: от парсинга товаров с сайта 
-[divan.ru] до очистки, анализа и визуализации.
+[divan.ru] до удаления пустых значений и некорректных ценовых строк, анализа и визуализации.
 В отличие от проекта по «чистому парсингу», здесь основной фокус сделан на аналитике и интерпретации данных.
 
 ---
@@ -21,7 +21,7 @@
 **Базовая статистика** (eda.py):
   * df.info(), df.describe()
   * Среднее, медиана, мода
-  * Q1, Q3, IQR, стандартное отклонение
+  * Квартиль 1 (Q1), квартиль 3 (Q3), межквартильный размах (IQR), стандартное отклонение
   * Подсчёт количества выбросов
 
 **Визуализация** (visualization.py + analysis.ipynb):
@@ -54,8 +54,8 @@
 1. **Клонировать репозиторий**:
 
    ```bash
-   git clone https://github.com/ваш_пользователь/divan_parser.git
-   cd divan_parser
+   git clone https://github.com/ваш_пользователь/sofa-price-analysis.git
+   cd sofa-price-analysis
    ```
    
 2. **Создать виртуальное окружение и установить зависимости**:
@@ -132,7 +132,7 @@ sofa-price-analysis/
 │   └── figures
 │       ├── boxplot_prices.png                   # boxplot
 │       ├── histogram_prices.png                 # гистограмма цен
-│       └── scatter_name_length_vs_price.png     # KDE-график
+│       └── scatter_name_length_vs_price.png     # scatterplot
 ├── screenshots/                                 # скриншоты графиков
 ├── requirements.txt                             # зависимости
 └── README.md                                    # документация
@@ -175,5 +175,5 @@ sofa-price-analysis/
 ![Вывод EDA.py в консоли.jpg](screenshots/%D0%92%D1%8B%D0%B2%D0%BE%D0%B4%20EDA.py%20%D0%B2%20%D0%BA%D0%BE%D0%BD%D1%81%D0%BE%D0%BB%D0%B8.jpg)
 
 **Пример гистограммы цен на товары мебели**
-![histogram_prices.png.jpg](screenshots/histogram_prices.png.jpg)
+![histogram_prices.png.jpg](screenshots/histogram_prices.jpg)
 
