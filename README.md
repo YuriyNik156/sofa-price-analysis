@@ -163,12 +163,12 @@ sofa-price-analysis/
 
 ## Скриншоты
 
-**cleaned_products.csv (после очистки).jpg**
+**Пример данных парсинга после очистки**
 ![cleaned_products.csv (после очистки).jpg](screenshots/cleaned_products.csv%20%28%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%20%D0%BE%D1%87%D0%B8%D1%81%D1%82%D0%BA%D0%B8%29.jpg)
 
-**Вывод EDA.py в консоли.jpg**
+**Пример вывода EDA.py в консоли**
 ![Вывод EDA.py в консоли.jpg](screenshots/%D0%92%D1%8B%D0%B2%D0%BE%D0%B4%20EDA.py%20%D0%B2%20%D0%BA%D0%BE%D0%BD%D1%81%D0%BE%D0%BB%D0%B8.jpg)
 
-**!histogram_prices.png.jpg**
+**Пример гистограммы цен на товары мебели**
 ![histogram_prices.png.jpg](screenshots/histogram_prices.png.jpg)
 
