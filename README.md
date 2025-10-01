@@ -54,7 +54,7 @@
 1. **Клонировать репозиторий**:
 
    ```bash
-   git clone https://github.com/ваш_пользователь//divan_parser.git
+   git clone https://github.com/ваш_пользователь/divan_parser.git
    cd divan_parser
    ```
    
