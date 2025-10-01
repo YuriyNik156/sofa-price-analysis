@@ -65,29 +65,34 @@
     source venv/bin/activate  # Linux/macOS
     venv\Scripts\activate     # Windows
     pip install -r requirements.txt
+   ```
    
 3. **Запуск по шагам:**
 
-* Парсинг (сбор данных):
+   * Парсинг (сбор данных):
 
-    ```bash
-    python src/parsing.py
+   ```bash
+   python src/parsing.py
+   ```
 
-* Очистка:
+   * Очистка:
 
-    ```bash
-    python src/cleaning.py
+   ```bash
+   python src/cleaning.py
+   ```
 
-* Базовая статистика:
+   * Базовая статистика:
 
-    ```bash
-    python src/eda.py
+   ```bash
+   python src/eda.py
+   ```
 
-* Визуализация:
+   * Визуализация:
 
-    ```bash
-    python -m src.visualization
-  
+   ```bash
+   python -m src.visualization
+   ```
+   
 ---
 
 ## Пример графиков
