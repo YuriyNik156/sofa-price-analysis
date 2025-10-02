@@ -118,6 +118,7 @@
 
 ## Структура проекта
 
+```
 sofa-price-analysis/
 ├── data/                     
 │   ├── raw_products.csv                         # сохранение парсинга данных
@@ -132,11 +133,13 @@ sofa-price-analysis/
 ├── reports
 │   └── figures
 │       ├── boxplot_prices.png                   # boxplot
+│       ├── kde_prices.png                       # KDE
 │       ├── histogram_prices.png                 # гистограмма цен
 │       └── scatter_name_length_vs_price.png     # scatterplot
 ├── screenshots/                                 # скриншоты графиков
 ├── requirements.txt                             # зависимости
 └── README.md                                    # документация
+```
 
 ---
 
