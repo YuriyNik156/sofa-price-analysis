@@ -43,6 +43,16 @@ def main():
     plt.xlabel("Цена, ₽")
     plt.ylabel("Плотность")
     plt.tight_layout()
+    plt.savefig(os.path.join(IMG_DIR, "kde_prices.png"))
+    plt.close()
+
+    # --- scatterplot ---
+    plt.figure(figsize=(8, 5))
+    sns.scatterplot(x=df["name"].str.len(), y=df["price"])
+    plt.title("Scatterplot: цена vs длина названия товара")
+    plt.xlabel("Длина названия (символы)")
+    plt.ylabel("Цена, ₽")
+    plt.tight_layout()
     plt.savefig(os.path.join(IMG_DIR, "scatter_name_length_vs_price.png"))
     plt.close()
 
